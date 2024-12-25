@@ -1,0 +1,36 @@
+{% extends '../Basic/index.html' %}
+{% block slider %}
+{% endblock %}
+{% block content %}
+<div class="fullwidth-block">
+    <div class="fullwidth-block inner-content">
+        <div class="container">
+            <div class="fullwidth-content">
+                <h2 class="section-title"><i class="icon-calendar-lg"></i> Task History</h2>
+
+                <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Changed By</th>
+                            <th>Details</th>
+                            <th>Change At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for edit in history %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ edit.changed_by.username }}</td>
+                                <td>{{ edit.change_details }}</td>
+                                <td>{{ edit.changed_at|date:"Y-m-d H:i:s" }}</td>
+                            </tr>    
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div> 
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends '../Basic/index.html' %}
+{% block slider %}
+{% endblock %}
+{% block content %}
+<div class="fullwidth-block">
+    <div class="fullwidth-block inner-content">
+        <div class="container">
+            <div class="fullwidth-content">
+                <h2 class="section-title"><i class="icon-calendar-lg"></i> Tasks</h2>
+
+                <table class="table" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Created By</th>
+                            <th>Assigned To</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.created_by.username }}</td>
+                                <td>{{ task.assigned_to.username }}</td>
+                                <td>{{ task.priority }}</td>
+                                <td>
+                                    {{ task.status }}
+                                    {% if task.status == "Pending" or task.status == "In Progress" %}
+                                        <a href="{% url 'update_status' id=task.id old_status=task.status %}" class="btn btn-sm btn-primary">
+                                            <i class="mdi mdi-arrow-up"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if role == "Admin" or request.session.username == task.created_by.username %}
+                                        <a href="{% url 'update_task' id=task.id %}" class="btn btn-sm btn-primary">Update</a>
+                                    {% else %}
+                                        <a href="" class="btn btn-sm btn-primary disabled">Update</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if role == "Admin" %}
+                                        <a href="{% url 'delete_task' id=task.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                    {% else %}
+                                        <a href="" class="btn btn-sm btn-danger disabled">Delete</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'task_history' id=task.id %}" class="btn btn-sm btn-success">History</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div> 
+</div>
+{% endblock %}
